@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EZ Park Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 400px; /* Full screen height */
+            width: 600px;   /* Full screen width */
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    // Initialize the map and set view to a default location and zoom level
+    var map = L.map('map').setView([39.960339, -76.734673], 17);
+
+    // Add a tile layer
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2hhZmYwNyIsImEiOiJjbTJ4b2Fjd3owNzNuMmtwcnV1M3VnZWtnIn0.JIaTGUq45dxdT6mINW_5rw', {
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1Ijoic2hhZmYwNyIsImEiOiJjbTJ4b2Fjd3owNzNuMmtwcnV1M3VnZWtnIn0.JIaTGUq45dxdT6mINW_5rw'
+    }).addTo(map);
+
+    // JavaScript function to plot route from JavaFX
+    function plotRoute(coordinates) {
+        // Remove existing route if present
+        if (window.routePolyline) {
+            map.removeLayer(window.routePolyline);
+        }
+
+        // Create a polyline with the coordinates and add it to the map
+        window.routePolyline = L.polyline(coordinates, { color: 'blue' }).addTo(map);
+
+        // Fit the map view to the route
+        map.fitBounds(window.routePolyline.getBounds());
+    }
+
+
+
+</script>
+
+<script>
+    function plotRoute(coordinates) {
+        if (window.routePolyline) {
+            map.removeLayer(window.routePolyline);
+        }
+        window.routePolyline = L.polyline(coordinates, { color: 'blue' }).addTo(map);
+        map.fitBounds(window.routePolyline.getBounds());
+    }
+</script>
+</body>
+</html>
